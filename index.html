@@ -1,0 +1,295 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+
+    <title>CV | DFIR</title>
+
+    <link rel="stylesheet" href="dist/reset.css">
+    <link rel="stylesheet" href="dist/reveal.css">
+    <link rel="stylesheet" href="dist/theme/black.css">
+
+    <!-- Theme used for syntax highlighted code -->
+    <link rel="stylesheet" href="plugin/highlight/monokai.css">
+  </head>
+  <body>
+    <div class="reveal">
+      <div class="slides">
+        <!-- Introdução -->
+        <section id="intro">
+          <section>
+            <h1 style="color:#FFF;">Visão s2 Forense Digital</h1>
+            <p style="color:#FFF;">
+              <small>SEMCOMP SSA - 2021</small>
+            </p>
+            <p style="color:#FFF;">
+                <small> Adeilson Silva / <a href="https://github.com/adeilsonsilva">@adeilsonsilva</a></small>
+            </p>
+          </section>
+          <section>
+            <h2>Adeilson Silva</h2>
+            <p><small>Mestrando em Ciência da Computação - PGCOMP UFBA</small></p>
+            <p><small>P&D SENAI CIMATEC - Projeto Flatfish</small></p>
+          </section>
+          <section>
+            <h2>Tenho alguns intuitos...</h2>
+            <p><small>Trazer novas pessoas para resolver alguns dos problemas em aberto</small></p>
+            <p><small>Entender como as áreas conversam entre si</small></p>
+            <p><small>Levantar possíveis consequências sociais/filosóficas dessas tecnologias</small></p>
+            <p><small>Jogar dúvidas em possíveis certezas</small></p>
+          </section>
+        </section>
+
+        <!-- Definições -->
+        <section id="definicoes">
+          <section>
+            <h1 style="color:#FFF;">Algumas definições importantes...</h1>
+          </section>
+          <!-- Visão -->
+          <section>
+            <h2>Visão Computacional</h2>
+            <p>
+              <blockquote>
+                &ldquo;se refere à coleta, análise e sintese de dados visuais através de computadores, com objetivos diversos como a identificação de rostos e biometria, a análise de representações de objetos, entidades, conceitos e contexto em imagens, entre outros&rdquo; [1]
+              </blockquote>
+            </p>
+          </section>
+          <section>
+            <img width="800" height="600" data-src="https://upload.wikimedia.org/wikipedia/commons/5/56/RGB_channels_separation.png" alt="imagem de pássaro separada em três canais">
+            <p><small>https://commons.wikimedia.org/wiki/File:RGB_channels_separation.png</small></p>
+          </section>
+          <section>
+            <img width="300" height="400" data-src="https://upload.wikimedia.org/wikipedia/commons/f/fa/Grayscale_8bits_palette_sample_image.png" alt="imagem de pássaro em escala de cinza">
+            <p><small>https://commons.wikimedia.org/wiki/File:Grayscale_8bits_palette_sample_image.png</small></p>
+          </section>
+          <!-- Forense -->
+          <section>
+            <h2>Forense Digital</h2>
+            <p>
+              <blockquote>
+                &ldquo;Identificar, coletar e adquirir evidências, examinar e analisar as evidências coletadas e, finalmente, documentar e reportar observações sem comprometer a integridade dos dados&rdquo; [2]
+              </blockquote>
+            </p>
+          </section>
+          <section>
+            <img width="1000" height="400" data-src="https://miro.medium.com/max/711/0*BcsiJ64VVAiVO03W" alt="imagem de pássaro em escala de cinza">
+            <p><small>https://medium.com/@fertorresfs/confiabilidade-nos-aspectos-da-seguran%C3%A7a-da-informa%C3%A7%C3%A3o-99359a01abee</small></p>
+          </section>
+        </section>
+
+        <!-- Aplicações -->
+        <section id="aplicacoes">
+          <section>
+            <h1 style="color:#FFF;">Beleza, mas... Onde eu uso isso?</h1>
+          </section>
+          <!-- Reconhecimento Facial -->
+          <section>
+            <h1 style="color:#FFF;">Como checar se uma face é real?</h1>
+          </section>
+          <section data-background-video="images/classifier.mp4" data-background-video-loop="loop">
+          </section>
+          <section>
+            <h4>Um (possível) sistema antifraudes</h4>
+            <img data-src="images/flow.jpeg" height="580px">
+          </section>
+          <section>
+            <h4>Contramedidas...</h4>
+            <img data-src="images/papel_fotografico.png" width="80%">
+          </section>
+          <!-- Imagens/Vídeos -->
+          <section>
+            <h1 style="color:#FFF;">Como saber se uma imagem foi manipulada?</h1>
+          </section>
+          <section>
+            <img data-src="images/image_manipulation.png" height="580px">
+            <p><small> Imagem retirada de "Media Forensics and DeepFakes: an overview" [3]</small></p>
+          </section>
+          <section>
+            <img data-src="images/image_formation.png">
+            <p><small> Imagem retirada de "Media Forensics and DeepFakes: an overview" [3]</small></p>
+          </section>
+          <!-- Malware -->
+          <section>
+            <h1 style="color:#FFF;">Como saber se um arquivo.exe é malware?</h1>
+          </section>
+          <section>
+            <h2>YARA</h2>
+            <p>
+              <blockquote>
+                &ldquo;YARA é uma ferramenta com o objetivo de (mas não limitada a) ajudar pesquisadores de malware a identificar e classificar exemplares de malware&rdquo;
+              </blockquote>
+              https://yara.readthedocs.io/en/stable/
+            </p>
+          </section>
+          <section>
+            <h2>YARA</h2>
+            <pre><code data-trim data-noescape data-line-numbers="8-10,12">
+              rule meu_malware_favorito
+              {
+                  meta:
+                      description = "Este é um malware perigosíssimo"
+                      threat_level = 9999
+                      in_the_wild = true
+                  strings:
+                      $a = {6A 40 68 00 30 00 00 6A 14 8D 91}
+                      $b = {8D 4D B0 2B C1 83 C0 27 99 6A 4E 59 F7 F9}
+                      $c = "UVODFRYSIHLNWPEJXQZAKCBGMT"
+                  condition:
+                      $a or $b or $c
+              }
+            </code></pre>
+          </section>
+          <section>
+            <h2>Análise Estática</h2>
+            <img width="600" height="400" data-src="images/objdump.png" alt="ferramenta objdump">
+          </section>
+          <section>
+            <h2>Análise Dinâmica</h2>
+            <img width="600" height="400" data-src="images/proc_exp.png" alt="ferramenta process explorer">
+          </section>
+          <section>
+            <h2>Coletar informação!</h2>
+            <table>
+              <thead>
+                <tr>
+                  <th>Hash</th>
+                  <th>Chamadas de sistema</th>
+                  <th>Bibliotecas importadas</th>
+                  <th>Processos criados</th>
+                  <th>Modificações de registro</th>
+                </tr>
+              </thead>
+              <tbody>
+                <tr>
+                  <td>006cde</td>
+                  <td>485</td>
+                  <td>2</td>
+                  <td>4</td>
+                  <td>0</td>
+                </tr>
+                <tr>
+                  <td>6c112c</td>
+                  <td>127</td>
+                  <td>5</td>
+                  <td>45</td>
+                  <td>225</td>
+                </tr>
+                <tr>
+                  <td>272163</td>
+                  <td>2</td>
+                  <td>0</td>
+                  <td>1</td>
+                  <td>1567</td>
+                </tr>
+              </tbody>
+            </table>
+          </section>
+        </section>
+
+        <!-- Deep Learning -->
+        <section id="deep-learning">
+          <section>
+            <h1 style="color:#FFF;">Você não vai falar de deep learning, vai?</h1>
+          </section>
+          <section>
+            <h2>Vou... Por algumas razões:</h2>
+            <ul>
+              <li>Potencializar aplicações</li>
+              <li>Mais fácil de reproduzir/reaproveitar</li>
+              <li>"Elimina" o especialista *</li>
+            </ul>
+          </section>
+          <section>
+            <h4>Reconhecimento Facial tornou-se muito mais fácil</h4>
+          </section>
+          <section data-background="#dddddd">
+            <h3>Um malware pode ser uma imagem</h3>
+            <img width="600" height="400" data-src="images/malware_sections.png" alt="malware png">
+          </section>
+          <section>
+            <h4>PORÉM...</h4>
+            <ul>
+              <li>Aquisição de dados com variação suficiente</li>
+              <li>Geração de bases de dados sem vieses óbvios</li>
+              <li>Custo de treino</li>
+            </ul>
+          </section>
+          <section>
+            <h2>Dá pra enganar sistemas baseados em deep learning?</h2>
+          </section>
+          <section>
+            <h3>Exemplos Adversariais</h3>
+            <img width="800" height="400" data-src="https://miro.medium.com/max/711/1*PmCgcjO3sr3CPPaCpy5Fgw.png" alt="adversarial">
+          </section>
+          <!-- Deep Fakes -->
+          <section>
+            <iframe width="689" height="517" src="https://www.youtube.com/embed/TGvxD0Zid6A" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
+            <p><small>DeepFakes</small></p>
+          </section>
+          <section>
+            <h2>Injetando código em malwares</h2>
+            <pre><code data-trim data-noescape></code>
+              injector = PEInjector("pe32.exe",
+                                    "pe32-adversarial.exe")
+
+              injector.run()
+            </code></pre>
+            <p><small>https://github.com/adeilsonsilva/legendary-invention</small></p>
+          </section>
+        </section>
+
+        <!-- Conclusões -->
+        <section id="conclusoes">
+          <section data-background="images/revisao.jpg" data-background-image="images/revisao.jpg" data-background-size="70% 90%">
+          </section>
+          <section>
+            <h2>Conclusões (?)</h2>
+            <p class="fragment">Especialista em várias coisas</p>
+            <p class="fragment">Deep Learning é uma ameaça para os amantes da true cybersec</p>
+          </section>
+        </section>
+
+        <!-- Agradecimentos -->
+        <section id="outro">
+          <section>
+            <h1>Obrigado! Perguntas?</h1>
+          </section>
+        </section>
+
+        <!-- Referências -->
+        <section>
+          <h2>Referências</h2>
+          <ol>
+            <li>Wang2015</li>
+            <li>Aditya2018</li>
+            <li>Verdoliva2020</li>
+          </ol>
+        </section>
+      </div>
+    </div>
+
+    <script src="dist/reveal.js"></script>
+    <script src="plugin/notes/notes.js"></script>
+    <script src="plugin/markdown/markdown.js"></script>
+    <script src="plugin/highlight/highlight.js"></script>
+    <script>
+      // More info about initialization & config:
+      // - https://revealjs.com/initialization/
+      // - https://revealjs.com/config/
+      Reveal.initialize({
+        hash: true,
+        // Display controls in the bottom right corner
+        controls: true,
+        // Display a presentation progress bar
+        progress: true,
+        // Set default timing of 2 minutes per slide
+        defaultTiming: 120,
+        // Display the page number of the current slide
+        slideNumber: false,
+        // Learn about plugins: https://revealjs.com/plugins/
+        plugins: [ RevealMarkdown, RevealHighlight, RevealNotes ]
+      });
+    </script>
+  </body>
+</html>
